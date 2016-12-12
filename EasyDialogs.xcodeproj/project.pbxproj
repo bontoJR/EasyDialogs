@@ -8,11 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		CBB2C3681DFED42A001FF618 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB2C3671DFED42A001FF618 /* AppDelegate.swift */; };
-		CBB2C36A1DFED42A001FF618 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB2C3691DFED42A001FF618 /* ViewController.swift */; };
 		CBB2C36D1DFED42A001FF618 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CBB2C36B1DFED42A001FF618 /* Main.storyboard */; };
 		CBB2C36F1DFED42A001FF618 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBB2C36E1DFED42A001FF618 /* Assets.xcassets */; };
 		CBB2C3721DFED42A001FF618 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CBB2C3701DFED42A001FF618 /* LaunchScreen.storyboard */; };
 		CBB2C37D1DFED42A001FF618 /* EasyDialogsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB2C37C1DFED42A001FF618 /* EasyDialogsTests.swift */; };
+		CBB2C3891DFED487001FF618 /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB2C3881DFED487001FF618 /* MainTableViewController.swift */; };
+		CBB2C38B1DFED771001FF618 /* EasyDialogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB2C38A1DFED771001FF618 /* EasyDialogs.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,7 +29,6 @@
 /* Begin PBXFileReference section */
 		CBB2C3641DFED42A001FF618 /* EasyDialogs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyDialogs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBB2C3671DFED42A001FF618 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CBB2C3691DFED42A001FF618 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		CBB2C36C1DFED42A001FF618 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CBB2C36E1DFED42A001FF618 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CBB2C3711DFED42A001FF618 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -36,6 +36,8 @@
 		CBB2C3781DFED42A001FF618 /* EasyDialogsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EasyDialogsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBB2C37C1DFED42A001FF618 /* EasyDialogsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyDialogsTests.swift; sourceTree = "<group>"; };
 		CBB2C37E1DFED42A001FF618 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CBB2C3881DFED487001FF618 /* MainTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
+		CBB2C38A1DFED771001FF618 /* EasyDialogs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EasyDialogs.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,8 +79,9 @@
 		CBB2C3661DFED42A001FF618 /* EasyDialogs */ = {
 			isa = PBXGroup;
 			children = (
+				CBB2C3871DFED441001FF618 /* Classes */,
 				CBB2C3671DFED42A001FF618 /* AppDelegate.swift */,
-				CBB2C3691DFED42A001FF618 /* ViewController.swift */,
+				CBB2C3881DFED487001FF618 /* MainTableViewController.swift */,
 				CBB2C36B1DFED42A001FF618 /* Main.storyboard */,
 				CBB2C36E1DFED42A001FF618 /* Assets.xcassets */,
 				CBB2C3701DFED42A001FF618 /* LaunchScreen.storyboard */,
@@ -94,6 +97,14 @@
 				CBB2C37E1DFED42A001FF618 /* Info.plist */,
 			);
 			path = EasyDialogsTests;
+			sourceTree = "<group>";
+		};
+		CBB2C3871DFED441001FF618 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				CBB2C38A1DFED771001FF618 /* EasyDialogs.swift */,
+			);
+			path = Classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -201,8 +212,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CBB2C36A1DFED42A001FF618 /* ViewController.swift in Sources */,
+				CBB2C3891DFED487001FF618 /* MainTableViewController.swift in Sources */,
 				CBB2C3681DFED42A001FF618 /* AppDelegate.swift in Sources */,
+				CBB2C38B1DFED771001FF618 /* EasyDialogs.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +353,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 4BGYDQR2GQ;
 				INFOPLIST_FILE = EasyDialogs/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.bonto.EasyDialogs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -354,6 +367,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 4BGYDQR2GQ;
 				INFOPLIST_FILE = EasyDialogs/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.bonto.EasyDialogs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
