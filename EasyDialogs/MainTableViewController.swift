@@ -34,34 +34,56 @@ class MainTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 2
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.textLabel?.text = "Simple Dialog"
+        
+        switch indexPath.row {
+        case 0:
+            cell.textLabel?.text = "Simple Dialog"
+        case 1:
+            cell.textLabel?.text = "Username and Password"
+        default:
+            cell.textLabel?.text = "Unknown"
+        }
+        
         return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        EasyDialog.Builder(self)
-            .title(title: "Hello World") // tag -> 1
-            .textField(placeholder: "Username") // tag -> 2
-            .textField(placeholder: "Password", secure: true) // tag -> 3
-            .addButton(title: "Ok") { dialog in
-                
-                let tfUsername = dialog.view.viewWithTag(2) as! UITextField
-                let tfPassword = dialog.view.viewWithTag(3) as! UITextField
-                
-                print("\(tfUsername.text ?? "") \(tfPassword.text ?? "")" )
-                
-                dialog.dismiss(animated: true)
-            }
-            .addButton(title: "Cancel") { dialog in
-                dialog.dismiss(animated: true)
-            }
-            .build()
-            .show()
+        
+        if indexPath.row == 0 {
+            EasyDialog.Builder(self)
+                .title(title: "Hello World") // tag -> 1
+                .text(content: "This is a basic dialog")
+                .space(ofSize: 4)
+                .addButton(title: "Ok") { dialog in
+                    dialog.dismiss(animated: true)
+                }
+                .build()
+                .show()
+        } else if indexPath.row == 1 {
+            EasyDialog.Builder(self)
+                .title(title: "User and Pass") // tag -> 1
+                .textField(placeholder: "Username") // tag -> 2
+                .textField(placeholder: "Password", secure: true) // tag -> 3
+                .positiveButton(title: "Ok") { dialog in
+                    
+                    let tfUsername = dialog.view.viewWithTag(2) as! UITextField
+                    let tfPassword = dialog.view.viewWithTag(3) as! UITextField
+                    
+                    print("\(tfUsername.text ?? "") \(tfPassword.text ?? "")" )
+                    
+                    dialog.dismiss(animated: true)
+                }
+                .destructiveButton(title: "Cancel")
+                .build()
+                .show()
+        }
+        
+        
     }
 
 }

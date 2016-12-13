@@ -26,7 +26,32 @@
 import Foundation
 import UIKit
 
+fileprivate func colorFromDecimalRGB(_ red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat = 1.0) -> UIColor {
+    return UIColor(
+        red: red / 255.0,
+        green: green / 255.0,
+        blue: blue / 255.0,
+        alpha: alpha
+    )
+}
+
 public class EasyDialog: UIViewController {
+    
+    struct Theme {
+        let titleFont: UIFont = UIFont.boldSystemFont(ofSize: 18.0)
+        let alertBackgroudColor = UIColor.white
+        let cornerRadius: CGFloat = 5.0
+        let maskViewAlpha: CGFloat = 0.6
+        let positiveButtonBackgroundColor: UIColor = colorFromDecimalRGB(64, green: 186, blue: 145)
+        let positiveButtonTextColor: UIColor = UIColor.white
+        let positiveButtonFont: UIFont = UIFont.systemFont(ofSize: 16.0)
+        let destructiveButtonBackgroundColor: UIColor = colorFromDecimalRGB(255, green: 59, blue: 48)
+        let destructiveButtonTextColor: UIColor = UIColor.white
+        let destructiveButtonFont: UIFont = UIFont.boldSystemFont(ofSize: 16.0)
+        let regularButtonBackgroundColor: UIColor = colorFromDecimalRGB(21, green: 118, blue: 185)
+        let regularButtonTextColor: UIColor = UIColor.white
+        let regularButtonFont: UIFont = UIFont.systemFont(ofSize: 16.0)
+    }
     
     private class ActionWrapper {
         weak var sender: UIControl?
@@ -50,15 +75,26 @@ public class EasyDialog: UIViewController {
     
     public class Builder {
         
+        enum ButtonType {
+            case destructive
+            case positive
+            case regular
+        }
+        
+        static var defaultTheme = Theme()
+        
         /// The view controller to display the alert view
         let targetViewController: UIViewController
+        
+        let theme: Theme
         
         private var views = [UIView]()
         private var buttons = [UIButton]()
         private var actions = [ActionWrapper]()
         
-        init(_ viewController: UIViewController) {
+        init(_ viewController: UIViewController, theme: Theme = defaultTheme) {
             targetViewController = viewController
+            self.theme = theme
         }
         
         /// Set the title of the dialog
@@ -66,6 +102,7 @@ public class EasyDialog: UIViewController {
             let label = UILabel()
             label.text = title
             label.textAlignment = .center
+            label.font = theme.titleFont
             views.append(label)
             return self
         }
@@ -96,14 +133,30 @@ public class EasyDialog: UIViewController {
             return self
         }
         
-        func addButton(tag: Int? = nil, title: String, callback: ((EasyDialog) -> ())?) -> Self {
+        func addButton(tag: Int? = nil, title: String, type: ButtonType = .regular, callback: ((EasyDialog) -> ())?) -> Self {
             let button = UIButton(type: .custom)
             if let t = tag {
                 button.tag = t
             }
             
             button.setTitle(title, for: .normal)
-            button.setTitleColor(UIColor.blue, for: .normal)
+            
+            switch type {
+            case .regular:
+                button.setTitleColor(theme.regularButtonTextColor, for: .normal)
+                button.titleLabel?.font = theme.regularButtonFont
+                button.backgroundColor = theme.regularButtonBackgroundColor
+            case .destructive:
+                button.setTitleColor(theme.destructiveButtonTextColor, for: .normal)
+                button.titleLabel?.font = theme.destructiveButtonFont
+                button.backgroundColor = theme.destructiveButtonBackgroundColor
+            case .positive:
+                button.setTitleColor(theme.positiveButtonTextColor, for: .normal)
+                button.titleLabel?.font = theme.positiveButtonFont
+                button.backgroundColor = theme.positiveButtonBackgroundColor
+            }
+            
+            
             
             if let cb = callback {
                 actions.append(ActionWrapper(sender: button, action: cb))
@@ -112,10 +165,31 @@ public class EasyDialog: UIViewController {
             return self
         }
         
+        func space(ofSize size: CGFloat = 12.0) -> Self {
+            let view = UIView()
+            view.heightAnchor.constraint(equalToConstant: size).isActive = true
+            views.append(view)
+            return self
+        }
+        
+        // MARK: Convenience Methods
+        
+        func destructiveButton(title: String = "Cancel", animated: Bool = true) -> Self {
+            return addButton(title: title, type: .destructive) { dialog in
+                dialog.dismiss(animated: animated)
+            }
+        }
+        
+        func positiveButton(title: String = "Cancel", animated: Bool = true, callback: @escaping ((EasyDialog) -> ())) -> Self {
+            return addButton(title: title, type: .positive, callback: callback)
+        }
+        
+        // MARK: Buiding
+        
         public func build() -> EasyDialog {
             let dialog = EasyDialog()
             dialog.builder = self
-            dialog.view.backgroundColor = UIColor(white: 0, alpha: 0.8)
+            dialog.view.backgroundColor = UIColor(white: 0, alpha: theme.maskViewAlpha)
             
             dialog.modalPresentationStyle = .overCurrentContext
             dialog.modalTransitionStyle = .crossDissolve
@@ -124,15 +198,15 @@ public class EasyDialog: UIViewController {
             dialog.view.addSubview(baseView)
             
             //TODO: Style base view with a theme
-            baseView.backgroundColor = UIColor.white
+            baseView.backgroundColor = theme.alertBackgroudColor
             baseView.translatesAutoresizingMaskIntoConstraints = false
             baseView.clipsToBounds = true
-            baseView.layer.cornerRadius = 5
+            baseView.layer.cornerRadius = theme.cornerRadius
             
             NSLayoutConstraint.activate([
                 baseView.leadingAnchor.constraint(equalTo: dialog.view.leadingAnchor, constant: 12),
                 baseView.trailingAnchor.constraint(equalTo: dialog.view.trailingAnchor, constant: -12),
-                baseView.heightAnchor.constraint(greaterThanOrEqualToConstant: 20),
+                baseView.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
                 baseView.centerXAnchor.constraint(equalTo: dialog.view.centerXAnchor),
                 baseView.centerYAnchor.constraint(equalTo: dialog.view.centerYAnchor)])
             
