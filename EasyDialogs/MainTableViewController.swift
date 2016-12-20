@@ -34,7 +34,7 @@ class MainTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 3
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -45,6 +45,8 @@ class MainTableViewController: UITableViewController {
             cell.textLabel?.text = "Simple Dialog"
         case 1:
             cell.textLabel?.text = "Username and Password"
+        case 2:
+            cell.textLabel?.text = "Rating"
         default:
             cell.textLabel?.text = "Unknown"
         }
@@ -81,9 +83,28 @@ class MainTableViewController: UITableViewController {
                 .destructiveButton(title: "Cancel")
                 .build()
                 .show()
+        } else if indexPath.row == 2 {
+            EasyDialog.Builder(self)
+                .title(title: "Rating") // tag -> 1
+                .label(text: "If you like this app, please consider rate us.", textAlignment: .center)
+                .positiveButton(title: "Yes") { dialog in
+                    
+                    print("process now")
+                    
+                    dialog.dismiss(animated: true)
+                }
+                .addButton(title: "Remind me later") { dialog in
+                    
+                    print("remind later")
+                    
+                    dialog.dismiss(animated: true)
+                }
+                .destructiveButton(title: "Not now")
+                .build()
+                .show()
         }
         
-        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 
 }

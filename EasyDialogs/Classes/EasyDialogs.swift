@@ -44,10 +44,10 @@ public class EasyDialog: UIViewController {
         let maskViewAlpha: CGFloat = 0.6
         let positiveButtonBackgroundColor: UIColor = colorFromDecimalRGB(64, green: 186, blue: 145)
         let positiveButtonTextColor: UIColor = UIColor.white
-        let positiveButtonFont: UIFont = UIFont.systemFont(ofSize: 16.0)
+        let positiveButtonFont: UIFont = UIFont.boldSystemFont(ofSize: 16.0)
         let destructiveButtonBackgroundColor: UIColor = colorFromDecimalRGB(255, green: 59, blue: 48)
         let destructiveButtonTextColor: UIColor = UIColor.white
-        let destructiveButtonFont: UIFont = UIFont.boldSystemFont(ofSize: 16.0)
+        let destructiveButtonFont: UIFont = UIFont.systemFont(ofSize: 16.0)
         let regularButtonBackgroundColor: UIColor = colorFromDecimalRGB(21, green: 118, blue: 185)
         let regularButtonTextColor: UIColor = UIColor.white
         let regularButtonFont: UIFont = UIFont.systemFont(ofSize: 16.0)
@@ -84,7 +84,7 @@ public class EasyDialog: UIViewController {
         static var defaultTheme = Theme()
         
         /// The view controller to display the alert view
-        let targetViewController: UIViewController
+        weak var targetViewController: UIViewController?
         
         let theme: Theme
         
@@ -197,15 +197,14 @@ public class EasyDialog: UIViewController {
             let baseView = UIView()
             dialog.view.addSubview(baseView)
             
-            //TODO: Style base view with a theme
             baseView.backgroundColor = theme.alertBackgroudColor
             baseView.translatesAutoresizingMaskIntoConstraints = false
             baseView.clipsToBounds = true
             baseView.layer.cornerRadius = theme.cornerRadius
             
             NSLayoutConstraint.activate([
-                baseView.leadingAnchor.constraint(equalTo: dialog.view.leadingAnchor, constant: 12),
-                baseView.trailingAnchor.constraint(equalTo: dialog.view.trailingAnchor, constant: -12),
+                baseView.leadingAnchor.constraint(equalTo: dialog.view.leadingAnchor, constant: 24),
+                baseView.trailingAnchor.constraint(equalTo: dialog.view.trailingAnchor, constant: -24),
                 baseView.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
                 baseView.centerXAnchor.constraint(equalTo: dialog.view.centerXAnchor),
                 baseView.centerYAnchor.constraint(equalTo: dialog.view.centerYAnchor)])
@@ -222,8 +221,16 @@ public class EasyDialog: UIViewController {
                 baseView.addSubview(view)
                 
                 if let pv = previousView {
+                    var constant = CGFloat(12.0)
+                    
+                    if let _ = pv as? UIButton, let _ = view as? UIButton {
+                        constant = 0
+                    } else if let _ = view as? UIButton {
+                        constant = 24
+                    }
+                    
                     NSLayoutConstraint.activate([
-                        view.topAnchor.constraint(equalTo: pv.bottomAnchor, constant: 12),
+                        view.topAnchor.constraint(equalTo: pv.bottomAnchor, constant: constant),
                         view.leadingAnchor.constraint(equalTo: baseView.leadingAnchor, constant: sideInset),
                         view.trailingAnchor.constraint(equalTo: baseView.trailingAnchor, constant: -sideInset),
                         view.centerXAnchor.constraint(equalTo: baseView.centerXAnchor)])
@@ -290,7 +297,7 @@ public class EasyDialog: UIViewController {
     private var builder: Builder!
     
     func show() {
-        builder.targetViewController.present(self, animated: true)
+        builder.targetViewController?.present(self, animated: true)
     }
     
 }
