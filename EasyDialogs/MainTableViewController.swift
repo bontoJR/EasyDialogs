@@ -34,7 +34,7 @@ class MainTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 4
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -42,10 +42,12 @@ class MainTableViewController: UITableViewController {
         
         switch indexPath.row {
         case 0:
-            cell.textLabel?.text = "Simple Dialog"
+            cell.textLabel?.text = "Classic"
         case 1:
-            cell.textLabel?.text = "Username and Password"
+            cell.textLabel?.text = "Simple Dialog"
         case 2:
+            cell.textLabel?.text = "Username and Password"
+        case 3:
             cell.textLabel?.text = "Rating"
         default:
             cell.textLabel?.text = "Unknown"
@@ -57,6 +59,20 @@ class MainTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if indexPath.row == 0 {
+            let alertController = UIAlertController(title: "Default AlertController", message: "A standard alert", preferredStyle: .alert)
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action:UIAlertAction!) in
+                print("you have pressed the Cancel button");
+            }
+            alertController.addAction(cancelAction)
+            
+            let okAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in
+                print("you have pressed OK button");
+            }
+            alertController.addAction(okAction)
+            
+            self.present(alertController, animated: true, completion:nil)
+        } else if indexPath.row == 1 {
             EasyDialog.Builder(self)
                 .title(title: "Hello World") // tag -> 1
                 .text(content: "This is a basic dialog")
@@ -66,12 +82,12 @@ class MainTableViewController: UITableViewController {
                 }
                 .build()
                 .show()
-        } else if indexPath.row == 1 {
+        } else if indexPath.row == 2 {
             EasyDialog.Builder(self)
                 .title(title: "User and Pass") // tag -> 1
                 .textField(placeholder: "Username") // tag -> 2
                 .textField(placeholder: "Password", secure: true) // tag -> 3
-                .positiveButton(title: "Ok") { dialog in
+                .positiveButton(title: "Login") { dialog in
                     
                     let tfUsername = dialog.view.viewWithTag(2) as! UITextField
                     let tfPassword = dialog.view.viewWithTag(3) as! UITextField
@@ -83,7 +99,7 @@ class MainTableViewController: UITableViewController {
                 .destructiveButton(title: "Cancel")
                 .build()
                 .show()
-        } else if indexPath.row == 2 {
+        } else if indexPath.row == 3 {
             EasyDialog.Builder(self)
                 .title(title: "Rating") // tag -> 1
                 .label(text: "If you like this app, please consider rate us.", textAlignment: .center)

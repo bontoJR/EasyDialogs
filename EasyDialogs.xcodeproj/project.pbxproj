@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CB41E2E01E0A8FA1004953FC /* LICENSE.md in Sources */ = {isa = PBXBuildFile; fileRef = CB41E2DE1E0A8FA1004953FC /* LICENSE.md */; };
+		CB41E2E11E0A8FA1004953FC /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = CB41E2DF1E0A8FA1004953FC /* README.md */; };
 		CBB2C3681DFED42A001FF618 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB2C3671DFED42A001FF618 /* AppDelegate.swift */; };
 		CBB2C36D1DFED42A001FF618 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CBB2C36B1DFED42A001FF618 /* Main.storyboard */; };
 		CBB2C36F1DFED42A001FF618 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBB2C36E1DFED42A001FF618 /* Assets.xcassets */; };
@@ -27,6 +29,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CB41E2DE1E0A8FA1004953FC /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = SOURCE_ROOT; };
+		CB41E2DF1E0A8FA1004953FC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		CBB2C3641DFED42A001FF618 /* EasyDialogs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyDialogs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBB2C3671DFED42A001FF618 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CBB2C36C1DFED42A001FF618 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -79,6 +83,8 @@
 		CBB2C3661DFED42A001FF618 /* EasyDialogs */ = {
 			isa = PBXGroup;
 			children = (
+				CB41E2DE1E0A8FA1004953FC /* LICENSE.md */,
+				CB41E2DF1E0A8FA1004953FC /* README.md */,
 				CBB2C3871DFED441001FF618 /* Classes */,
 				CBB2C3671DFED42A001FF618 /* AppDelegate.swift */,
 				CBB2C3881DFED487001FF618 /* MainTableViewController.swift */,
@@ -212,7 +218,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB41E2E01E0A8FA1004953FC /* LICENSE.md in Sources */,
 				CBB2C3891DFED487001FF618 /* MainTableViewController.swift in Sources */,
+				CB41E2E11E0A8FA1004953FC /* README.md in Sources */,
 				CBB2C3681DFED42A001FF618 /* AppDelegate.swift in Sources */,
 				CBB2C38B1DFED771001FF618 /* EasyDialogs.swift in Sources */,
 			);
@@ -424,6 +432,7 @@
 				CBB2C3831DFED42A001FF618 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CBB2C3841DFED42A001FF618 /* Build configuration list for PBXNativeTarget "EasyDialogsTests" */ = {
 			isa = XCConfigurationList;
@@ -432,6 +441,7 @@
 				CBB2C3861DFED42A001FF618 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
