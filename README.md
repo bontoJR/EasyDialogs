@@ -102,14 +102,14 @@ This is the code to create a simple dialog with an "Ok" button:
 
 ```swift
 EasyDialog.Builder(self)
-.title(title: "Hello World") // tag -> 1
-.text(content: "This is a basic dialog")
-.space(ofSize: 4)
-.addButton(title: "Ok") { dialog in
-dialog.dismiss(animated: true)
-}
-.build()
-.show()
+            .title(title: "Hello World") // tag -> 1
+            .text(content: "This is a basic dialog")
+            .space(ofSize: 4)
+            .addButton(title: "Ok") { dialog in
+                dialog.dismiss(animated: true)
+            }
+            .build()
+            .show()
 ```
 
 #### Rating dialog
@@ -118,23 +118,23 @@ Creating a simple rating dialog is pretty simple and looks like this:
 
 ```swift
 EasyDialog.Builder(self)
-.title(title: "Rating") // tag -> 1
-.label(text: "If you like this app, please consider rate us.", textAlignment: .center)
-.positiveButton(title: "Yes") { dialog in
+            .title(title: "Rating") // tag -> 1
+            .label(text: "If you like this app, please consider rate us.", textAlignment: .center)
+            .positiveButton(title: "Yes") { dialog in
 
-print("process now")
+                print("process now")
 
-dialog.dismiss(animated: true)
-}
-.addButton(title: "Remind me later") { dialog in
+                dialog.dismiss(animated: true)
+            }
+            .addButton(title: "Remind me later") { dialog in
 
-print("remind later")
+                print("remind later")
 
-dialog.dismiss(animated: true)
-}
-.destructiveButton(title: "Not now")
-.build()
-.show()
+                dialog.dismiss(animated: true)
+            }
+            .destructiveButton(title: "Not now")
+            .build()
+            .show()
 ```
 
 ---
