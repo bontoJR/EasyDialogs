@@ -78,24 +78,49 @@ fileprivate func applyLine(to view: UIView, on side: Side, color: UIColor = UICo
 
 public class EasyDialog: UIViewController {
     
-    struct Theme {
-        let titleFont: UIFont = UIFont.boldSystemFont(ofSize: 18.0)
-        let alertBackgroudColor = colorFromDecimalRGB(245, green: 245, blue: 245)
-        let cornerRadius: CGFloat = 15.0
-        let maskViewAlpha: CGFloat = 0.6
-        let separatorColor: UIColor = UIColor.lightGray
-        let positiveButtonBackgroundColor: UIColor = colorFromDecimalRGB(245, green: 245, blue: 245)
-        let positiveButtonSelectedBackgroundColor: UIColor = colorFromDecimalRGB(230, green: 230, blue: 230)
-        let positiveButtonTextColor: UIColor = colorFromDecimalRGB(19, green: 144, blue: 255)
-        let positiveButtonFont: UIFont = UIFont.boldSystemFont(ofSize: 16.0)
-        let destructiveButtonBackgroundColor: UIColor = colorFromDecimalRGB(245, green: 245, blue: 245)
-        let destructiveButtonSelectedBackgroundColor: UIColor = colorFromDecimalRGB(230, green: 230, blue: 230)
-        let destructiveButtonTextColor: UIColor = colorFromDecimalRGB(255, green: 59, blue: 48)
-        let destructiveButtonFont: UIFont = UIFont.systemFont(ofSize: 16.0)
-        let regularButtonBackgroundColor: UIColor = colorFromDecimalRGB(245, green: 245, blue: 245)
-        let regularButtonSelectedBackgroundColor: UIColor = colorFromDecimalRGB(230, green: 230, blue: 230)
-        let regularButtonTextColor: UIColor = colorFromDecimalRGB(19, green: 144, blue: 255)
-        let regularButtonFont: UIFont = UIFont.systemFont(ofSize: 16.0)
+    public struct Theme {
+        let textColor: UIColor
+        let titleColor: UIColor
+        let titleFont: UIFont
+        let alertBackgroudColor: UIColor
+        let cornerRadius: CGFloat
+        let maskViewAlpha: CGFloat
+        let separatorColor: UIColor
+        let positiveButtonBackgroundColor: UIColor
+        let positiveButtonSelectedBackgroundColor: UIColor
+        let positiveButtonTextColor: UIColor
+        let positiveButtonFont: UIFont
+        let destructiveButtonBackgroundColor: UIColor
+        let destructiveButtonSelectedBackgroundColor: UIColor
+        let destructiveButtonTextColor: UIColor
+        let destructiveButtonFont: UIFont
+        let regularButtonBackgroundColor: UIColor
+        let regularButtonSelectedBackgroundColor: UIColor
+        let regularButtonTextColor: UIColor
+        let regularButtonFont: UIFont
+        
+        init(textColor: UIColor = UIColor.black, titleColor: UIColor = UIColor.black, titleFont: UIFont = UIFont.boldSystemFont(ofSize: 18.0), alertBackgroudColor: UIColor = colorFromDecimalRGB(245, green: 245, blue: 245), cornerRadius: CGFloat = 15.0, maskViewAlpha: CGFloat = 0.6, separatorColor: UIColor = UIColor.lightGray, positiveButtonBackgroundColor: UIColor = colorFromDecimalRGB(245, green: 245, blue: 245), positiveButtonSelectedBackgroundColor: UIColor = colorFromDecimalRGB(230, green: 230, blue: 230), positiveButtonTextColor: UIColor = colorFromDecimalRGB(19, green: 144, blue: 255), positiveButtonFont: UIFont = UIFont.boldSystemFont(ofSize: 16.0), destructiveButtonBackgroundColor: UIColor = colorFromDecimalRGB(245, green: 245, blue: 245), destructiveButtonSelectedBackgroundColor: UIColor = colorFromDecimalRGB(230, green: 230, blue: 230), destructiveButtonTextColor: UIColor = colorFromDecimalRGB(255, green: 59, blue: 48), destructiveButtonFont: UIFont = UIFont.systemFont(ofSize: 16.0), regularButtonBackgroundColor: UIColor = colorFromDecimalRGB(245, green: 245, blue: 245), regularButtonSelectedBackgroundColor: UIColor = colorFromDecimalRGB(230, green: 230, blue: 230), regularButtonTextColor: UIColor = colorFromDecimalRGB(19, green: 144, blue: 255), regularButtonFont: UIFont = UIFont.systemFont(ofSize: 16.0) ) {
+            
+            self.textColor = textColor
+            self.titleColor = titleColor
+            self.titleFont = titleFont
+            self.alertBackgroudColor = alertBackgroudColor
+            self.cornerRadius = cornerRadius
+            self.maskViewAlpha = maskViewAlpha
+            self.separatorColor = separatorColor
+            self.positiveButtonBackgroundColor = positiveButtonBackgroundColor
+            self.positiveButtonSelectedBackgroundColor = positiveButtonSelectedBackgroundColor
+            self.positiveButtonTextColor = positiveButtonTextColor
+            self.positiveButtonFont = positiveButtonFont
+            self.destructiveButtonBackgroundColor = destructiveButtonBackgroundColor
+            self.destructiveButtonSelectedBackgroundColor = destructiveButtonSelectedBackgroundColor
+            self.destructiveButtonTextColor = destructiveButtonTextColor
+            self.destructiveButtonFont = destructiveButtonFont
+            self.regularButtonBackgroundColor = regularButtonBackgroundColor
+            self.regularButtonSelectedBackgroundColor = regularButtonSelectedBackgroundColor
+            self.regularButtonTextColor = regularButtonTextColor
+            self.regularButtonFont = regularButtonFont
+        }
     }
     
     private class ActionWrapper {
@@ -120,7 +145,7 @@ public class EasyDialog: UIViewController {
     
     public class Builder {
         
-        enum ButtonType {
+        public enum ButtonType {
             case destructive
             case positive
             case regular
@@ -137,36 +162,38 @@ public class EasyDialog: UIViewController {
         private var buttons = [UIButton]()
         private var actions = [ActionWrapper]()
         
-        init(_ viewController: UIViewController, theme: Theme = defaultTheme) {
+        public init(_ viewController: UIViewController, theme: Theme = defaultTheme) {
             targetViewController = viewController
             self.theme = theme
         }
         
         /// Set the title of the dialog
-        func title(title: String) -> Self {
+        public func title(title: String) -> Self {
             let label = UILabel()
             label.text = title
             label.textAlignment = .center
             label.font = theme.titleFont
+            label.textColor = theme.titleColor
             views.append(label)
             return self
         }
         
         /// Set the title of the dialog
-        func text(content: String) -> Self {
+        public func text(content: String) -> Self {
             return label(text: content, textAlignment: .center)
         }
         
-        func label(text: String, textAlignment: NSTextAlignment = .left) -> Self {
+        public func label(text: String, textAlignment: NSTextAlignment = .left) -> Self {
             let label = UILabel()
             label.text = text
             label.textAlignment = textAlignment
             label.numberOfLines = 0
+            label.textColor = theme.textColor
             views.append(label)
             return self
         }
         
-        func textField(tag: Int? = nil, placeholder: String? = nil, content: String? = nil, keyboardType: UIKeyboardType = .default, secure: Bool = false) -> Self {
+        public func textField(tag: Int? = nil, placeholder: String? = nil, content: String? = nil, keyboardType: UIKeyboardType = .default, secure: Bool = false) -> Self {
             let textField = UITextField()
             textField.placeholder = placeholder
             textField.text = content
@@ -180,7 +207,7 @@ public class EasyDialog: UIViewController {
             return self
         }
         
-        func addButton(tag: Int? = nil, title: String, type: ButtonType = .regular, callback: ((EasyDialog) -> ())?) -> Self {
+        public func addButton(tag: Int? = nil, title: String, type: ButtonType = .regular, callback: ((EasyDialog) -> ())?) -> Self {
             let button = UIButton(type: .custom)
             if let t = tag {
                 button.tag = t
@@ -206,8 +233,6 @@ public class EasyDialog: UIViewController {
                 button.backgroundColor = theme.positiveButtonBackgroundColor
             }
             
-            
-            
             if let cb = callback {
                 actions.append(ActionWrapper(sender: button, action: cb))
             }
@@ -215,7 +240,7 @@ public class EasyDialog: UIViewController {
             return self
         }
         
-        func space(ofSize size: CGFloat = 12.0) -> Self {
+        public func space(ofSize size: CGFloat = 12.0) -> Self {
             let view = UIView()
             view.heightAnchor.constraint(equalToConstant: size).isActive = true
             views.append(view)
@@ -224,13 +249,13 @@ public class EasyDialog: UIViewController {
         
         // MARK: Convenience Methods
         
-        func destructiveButton(title: String = "Cancel", animated: Bool = true) -> Self {
+        public func destructiveButton(title: String = "Cancel", animated: Bool = true) -> Self {
             return addButton(title: title, type: .destructive) { dialog in
                 dialog.dismiss(animated: animated)
             }
         }
         
-        func positiveButton(title: String = "Cancel", animated: Bool = true, callback: @escaping ((EasyDialog) -> ())) -> Self {
+        public func positiveButton(title: String = "Cancel", animated: Bool = true, callback: @escaping ((EasyDialog) -> ())) -> Self {
             return addButton(title: title, type: .positive, callback: callback)
         }
         
@@ -271,7 +296,13 @@ public class EasyDialog: UIViewController {
                 baseView.addSubview(view)
                 
                 if let pv = previousView {
-                    let constant = CGFloat(12.0)
+                    var constant = CGFloat(12.0)
+
+                    if let _ = pv as? UIButton, let _ = view as? UIButton {
+                        constant = 0
+                    } else if let _ = view as? UIButton {
+                        constant = 24
+                    }
                     
                     NSLayoutConstraint.activate([
                         view.topAnchor.constraint(equalTo: pv.bottomAnchor, constant: constant),
@@ -345,7 +376,7 @@ public class EasyDialog: UIViewController {
     /// reference to the builder
     private var builder: Builder!
     
-    func show() {
+    public func show() {
         builder.targetViewController?.present(self, animated: true)
     }
     

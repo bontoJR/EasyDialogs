@@ -51,6 +51,11 @@ EasyDialog.Builder(self)
 
 ```
 
+![Login](https://raw.githubusercontent.com/bontoJR/EasyDialogs/master/Screens/login.png) 
+![Regular](https://raw.githubusercontent.com/bontoJR/EasyDialogs/master/Screens/normal.png) 
+![Custom](https://raw.githubusercontent.com/bontoJR/EasyDialogs/master/Screens/custom.png)
+
+
 --- 
 
 # Project Status

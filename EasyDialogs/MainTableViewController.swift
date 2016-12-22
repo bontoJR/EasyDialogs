@@ -10,6 +10,15 @@ import UIKit
 
 class MainTableViewController: UITableViewController {
 
+    let customTheme = EasyDialog.Theme(
+        textColor: colorFromDecimalRGB(229, green: 231, blue: 218),
+        titleColor: colorFromDecimalRGB(229, green: 231, blue: 218),
+        alertBackgroudColor: colorFromDecimalRGB(38, green: 39, blue: 41),
+        cornerRadius: 2.0,
+        regularButtonBackgroundColor: colorFromDecimalRGB(38, green: 39, blue: 41),
+        regularButtonSelectedBackgroundColor: UIColor.darkGray,
+        regularButtonTextColor: colorFromDecimalRGB(229, green: 231, blue: 218))
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -34,7 +43,7 @@ class MainTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 5
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -49,6 +58,8 @@ class MainTableViewController: UITableViewController {
             cell.textLabel?.text = "Username and Password"
         case 3:
             cell.textLabel?.text = "Rating"
+        case 4:
+            cell.textLabel?.text = "Custom Theme"
         default:
             cell.textLabel?.text = "Unknown"
         }
@@ -118,9 +129,28 @@ class MainTableViewController: UITableViewController {
                 .destructiveButton(title: "Not now")
                 .build()
                 .show()
+        } else if indexPath.row == 4 {
+            EasyDialog.Builder(self, theme: customTheme)
+                .title(title: "Hello World") // tag -> 1
+                .text(content: "This is a basic dialog")
+                .space(ofSize: 4)
+                .addButton(title: "Ok") { dialog in
+                    dialog.dismiss(animated: true)
+                }
+                .build()
+                .show()
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
+}
+
+fileprivate func colorFromDecimalRGB(_ red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat = 1.0) -> UIColor {
+    return UIColor(
+        red: red / 255.0,
+        green: green / 255.0,
+        blue: blue / 255.0,
+        alpha: alpha
+    )
 }
