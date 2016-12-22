@@ -87,7 +87,6 @@ class MainTableViewController: UITableViewController {
             EasyDialog.Builder(self)
                 .title(title: "Hello World") // tag -> 1
                 .text(content: "This is a basic dialog")
-                .space(ofSize: 4)
                 .addButton(title: "Ok") { dialog in
                     dialog.dismiss(animated: true)
                 }
@@ -133,7 +132,6 @@ class MainTableViewController: UITableViewController {
             EasyDialog.Builder(self, theme: customTheme)
                 .title(title: "Hello World") // tag -> 1
                 .text(content: "This is a basic dialog")
-                .space(ofSize: 4)
                 .addButton(title: "Ok") { dialog in
                     dialog.dismiss(animated: true)
                 }
