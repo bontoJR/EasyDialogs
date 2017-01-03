@@ -82,44 +82,49 @@ public class EasyDialog: UIViewController {
         let textColor: UIColor
         let titleColor: UIColor
         let titleFont: UIFont
+        let textFont: UIFont
         let alertBackgroudColor: UIColor
         let cornerRadius: CGFloat
         let maskViewAlpha: CGFloat
         let separatorColor: UIColor
-        let positiveButtonBackgroundColor: UIColor
-        let positiveButtonSelectedBackgroundColor: UIColor
-        let positiveButtonTextColor: UIColor
-        let positiveButtonFont: UIFont
-        let destructiveButtonBackgroundColor: UIColor
-        let destructiveButtonSelectedBackgroundColor: UIColor
-        let destructiveButtonTextColor: UIColor
-        let destructiveButtonFont: UIFont
-        let regularButtonBackgroundColor: UIColor
-        let regularButtonSelectedBackgroundColor: UIColor
-        let regularButtonTextColor: UIColor
-        let regularButtonFont: UIFont
+        let positiveButton: Button
+        let destructiveButton: Button
+        let regularButton: Button
         
-        init(textColor: UIColor = UIColor.black, titleColor: UIColor = UIColor.black, titleFont: UIFont = UIFont.boldSystemFont(ofSize: 18.0), alertBackgroudColor: UIColor = colorFromDecimalRGB(245, green: 245, blue: 245), cornerRadius: CGFloat = 15.0, maskViewAlpha: CGFloat = 0.6, separatorColor: UIColor = UIColor.lightGray, positiveButtonBackgroundColor: UIColor = colorFromDecimalRGB(245, green: 245, blue: 245), positiveButtonSelectedBackgroundColor: UIColor = colorFromDecimalRGB(230, green: 230, blue: 230), positiveButtonTextColor: UIColor = colorFromDecimalRGB(19, green: 144, blue: 255), positiveButtonFont: UIFont = UIFont.boldSystemFont(ofSize: 16.0), destructiveButtonBackgroundColor: UIColor = colorFromDecimalRGB(245, green: 245, blue: 245), destructiveButtonSelectedBackgroundColor: UIColor = colorFromDecimalRGB(230, green: 230, blue: 230), destructiveButtonTextColor: UIColor = colorFromDecimalRGB(255, green: 59, blue: 48), destructiveButtonFont: UIFont = UIFont.systemFont(ofSize: 16.0), regularButtonBackgroundColor: UIColor = colorFromDecimalRGB(245, green: 245, blue: 245), regularButtonSelectedBackgroundColor: UIColor = colorFromDecimalRGB(230, green: 230, blue: 230), regularButtonTextColor: UIColor = colorFromDecimalRGB(19, green: 144, blue: 255), regularButtonFont: UIFont = UIFont.systemFont(ofSize: 16.0) ) {
+        public init(textColor: UIColor = UIColor.black, textFont: UIFont = UIFont.systemFont(ofSize: 16.0), titleColor: UIColor = UIColor.black, titleFont: UIFont = UIFont.boldSystemFont(ofSize: 18.0), alertBackgroudColor: UIColor = colorFromDecimalRGB(245, green: 245, blue: 245), cornerRadius: CGFloat = 15.0, maskViewAlpha: CGFloat = 0.6, separatorColor: UIColor = UIColor.lightGray, positiveButton: Button = Button.positive,  destructiveButton: Button = Button.destructive, regularButton: Button = Button.regular) {
             
             self.textColor = textColor
             self.titleColor = titleColor
             self.titleFont = titleFont
+            self.textFont = textFont
             self.alertBackgroudColor = alertBackgroudColor
             self.cornerRadius = cornerRadius
             self.maskViewAlpha = maskViewAlpha
             self.separatorColor = separatorColor
-            self.positiveButtonBackgroundColor = positiveButtonBackgroundColor
-            self.positiveButtonSelectedBackgroundColor = positiveButtonSelectedBackgroundColor
-            self.positiveButtonTextColor = positiveButtonTextColor
-            self.positiveButtonFont = positiveButtonFont
-            self.destructiveButtonBackgroundColor = destructiveButtonBackgroundColor
-            self.destructiveButtonSelectedBackgroundColor = destructiveButtonSelectedBackgroundColor
-            self.destructiveButtonTextColor = destructiveButtonTextColor
-            self.destructiveButtonFont = destructiveButtonFont
-            self.regularButtonBackgroundColor = regularButtonBackgroundColor
-            self.regularButtonSelectedBackgroundColor = regularButtonSelectedBackgroundColor
-            self.regularButtonTextColor = regularButtonTextColor
-            self.regularButtonFont = regularButtonFont
+            self.positiveButton = positiveButton
+            self.destructiveButton = destructiveButton
+            self.regularButton = regularButton
+        }
+        
+        public struct Button {
+            let backgroundColor: UIColor
+            let selectedBackgroundColor: UIColor
+            let textColor: UIColor
+            let font: UIFont
+            
+            init(backgroundColor: UIColor = colorFromDecimalRGB(245, green: 245, blue: 245), selectedBackgroundColor: UIColor = colorFromDecimalRGB(230, green: 230, blue: 230), textColor: UIColor = colorFromDecimalRGB(19, green: 144, blue: 255), font: UIFont = UIFont.boldSystemFont(ofSize: 16.0)) {
+                self.backgroundColor = backgroundColor
+                self.selectedBackgroundColor = selectedBackgroundColor
+                self.textColor = textColor
+                self.font = font
+            }
+            
+            static let positive = Button(backgroundColor: colorFromDecimalRGB(245, green: 245, blue: 245), selectedBackgroundColor: colorFromDecimalRGB(230, green: 230, blue: 230), textColor: colorFromDecimalRGB(19, green: 144, blue: 255), font: UIFont.boldSystemFont(ofSize: 16.0))
+            
+            static let destructive = Button(backgroundColor: colorFromDecimalRGB(245, green: 245, blue: 245), selectedBackgroundColor: colorFromDecimalRGB(230, green: 230, blue: 230), textColor: colorFromDecimalRGB(255, green: 59, blue: 48), font: UIFont.systemFont(ofSize: 16.0))
+            
+            static let regular = Button(backgroundColor: colorFromDecimalRGB(245, green: 245, blue: 245), selectedBackgroundColor: colorFromDecimalRGB(230, green: 230, blue: 230), textColor: colorFromDecimalRGB(19, green: 144, blue: 255), font: UIFont.systemFont(ofSize: 16.0))
+            
         }
     }
     
@@ -151,7 +156,7 @@ public class EasyDialog: UIViewController {
             case regular
         }
         
-        static var defaultTheme = Theme()
+        public static var defaultTheme = Theme()
         
         /// The view controller to display the alert view
         weak var targetViewController: UIViewController?
@@ -189,6 +194,7 @@ public class EasyDialog: UIViewController {
             label.textAlignment = textAlignment
             label.numberOfLines = 0
             label.textColor = theme.textColor
+            label.font = theme.textFont
             views.append(label)
             return self
         }
@@ -215,23 +221,20 @@ public class EasyDialog: UIViewController {
             
             button.setTitle(title, for: .normal)
             
+            var buttonTheme: Theme.Button
             switch type {
             case .regular:
-                button.setBackgroundImage(UIImage.imageWithColor(tintColor: theme.regularButtonSelectedBackgroundColor), for: .highlighted)
-                button.setTitleColor(theme.regularButtonTextColor, for: .normal)
-                button.titleLabel?.font = theme.regularButtonFont
-                button.backgroundColor = theme.regularButtonBackgroundColor
+                buttonTheme = theme.regularButton
             case .destructive:
-                button.setBackgroundImage(UIImage.imageWithColor(tintColor: theme.destructiveButtonSelectedBackgroundColor), for: .highlighted)
-                button.setTitleColor(theme.destructiveButtonTextColor, for: .normal)
-                button.titleLabel?.font = theme.destructiveButtonFont
-                button.backgroundColor = theme.destructiveButtonBackgroundColor
+                buttonTheme = theme.destructiveButton
             case .positive:
-                button.setBackgroundImage(UIImage.imageWithColor(tintColor: theme.regularButtonSelectedBackgroundColor), for: .highlighted)
-                button.setTitleColor(theme.positiveButtonTextColor, for: .normal)
-                button.titleLabel?.font = theme.positiveButtonFont
-                button.backgroundColor = theme.positiveButtonBackgroundColor
+                buttonTheme = theme.positiveButton
             }
+            
+            button.setBackgroundImage(UIImage.imageWithColor(tintColor: buttonTheme.selectedBackgroundColor), for: .highlighted)
+            button.setTitleColor(buttonTheme.textColor, for: .normal)
+            button.titleLabel?.font = buttonTheme.font
+            button.backgroundColor = buttonTheme.backgroundColor
             
             if let cb = callback {
                 actions.append(ActionWrapper(sender: button, action: cb))
@@ -243,6 +246,11 @@ public class EasyDialog: UIViewController {
         public func space(ofSize size: CGFloat = 12.0) -> Self {
             let view = UIView()
             view.heightAnchor.constraint(equalToConstant: size).isActive = true
+            views.append(view)
+            return self
+        }
+        
+        public func view(view: UIView) -> Self {
             views.append(view)
             return self
         }
@@ -384,7 +392,7 @@ public class EasyDialog: UIViewController {
 
 extension UIImage {
     
-    static func imageWithColor(tintColor: UIColor) -> UIImage {
+    fileprivate static func imageWithColor(tintColor: UIColor) -> UIImage {
         let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
         UIGraphicsBeginImageContextWithOptions(rect.size, false, 0)
         tintColor.setFill()

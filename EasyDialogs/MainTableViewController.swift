@@ -15,9 +15,9 @@ class MainTableViewController: UITableViewController {
         titleColor: colorFromDecimalRGB(229, green: 231, blue: 218),
         alertBackgroudColor: colorFromDecimalRGB(38, green: 39, blue: 41),
         cornerRadius: 2.0,
-        regularButtonBackgroundColor: colorFromDecimalRGB(38, green: 39, blue: 41),
-        regularButtonSelectedBackgroundColor: UIColor.darkGray,
-        regularButtonTextColor: colorFromDecimalRGB(229, green: 231, blue: 218))
+        regularButton: EasyDialog.Theme.Button(backgroundColor: colorFromDecimalRGB(38, green: 39, blue: 41),
+                                               selectedBackgroundColor: UIColor.darkGray,
+                                               textColor: colorFromDecimalRGB(229, green: 231, blue: 218)))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +43,7 @@ class MainTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 6
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -60,6 +60,8 @@ class MainTableViewController: UITableViewController {
             cell.textLabel?.text = "Rating"
         case 4:
             cell.textLabel?.text = "Custom Theme"
+        case 5:
+            cell.textLabel?.text = "Advanced"
         default:
             cell.textLabel?.text = "Unknown"
         }
@@ -132,9 +134,34 @@ class MainTableViewController: UITableViewController {
             EasyDialog.Builder(self, theme: customTheme)
                 .title(title: "Hello World") // tag -> 1
                 .text(content: "This is a basic dialog")
-                .addButton(title: "Ok") { dialog in
+                .addButton(title: "Ok") { dialog in // tag -> 2
                     dialog.dismiss(animated: true)
                 }
+                .build()
+                .show()
+        } else if indexPath.row == 5 {
+            EasyDialog.Builder(self)
+                .title(title: "User and Pass") // tag -> 1
+                .textField(placeholder: "Username") // tag -> 2
+                .textField(placeholder: "Password", secure: true) // tag -> 3
+                .view(view: UIActivityIndicatorView(activityIndicatorStyle: .gray)) // tag -> 4
+                .positiveButton(title: "Login") { dialog in
+                    
+                    let tfUsername = dialog.view.viewWithTag(2) as! UITextField
+                    let tfPassword = dialog.view.viewWithTag(3) as! UITextField
+                    let ai = dialog.view.viewWithTag(4) as! UIActivityIndicatorView
+                    
+                    tfUsername.isUserInteractionEnabled = false
+                    tfPassword.isUserInteractionEnabled = false
+                    
+                    ai.startAnimating()
+                    print("\(tfUsername.text ?? "") \(tfPassword.text ?? "")" )
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                        dialog.dismiss(animated: true)
+                    }
+                }
+                .destructiveButton(title: "Cancel")
                 .build()
                 .show()
         }

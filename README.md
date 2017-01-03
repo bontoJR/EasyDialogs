@@ -19,6 +19,7 @@ EasyDialogs is a simple library inspired by [MaterialDialogs for Android](git@gi
     3. [Manually](https://github.com/bontoJR/EasyDialogs#manually)
 4. [What's New](https://github.com/bontoJR/EasyDialogs#whats-new)
 5. [Usage](https://github.com/bontoJR/EasyDialogs#usage)
+    1. [Theming](https://github.com/bontoJR/EasyDialogs#theming)
 6. [Contributing](https://github.com/bontoJR/EasyDialogs#contributing)
 7. [License](https://github.com/bontoJR/EasyDialogs#license)
 
@@ -67,7 +68,7 @@ This project is under active development by [@bontoJR](https://twitter.com/bonto
 * [x] Basic builder
 * [x] Basic style
 * [x] Basic theming
-* [ ] Document advanced usage
+* [x] Document advanced usage
 * [ ] Advanced custom theming
 * [ ] Cool Animations
 * [ ] Elegant loading with transition
@@ -76,7 +77,8 @@ This project is under active development by [@bontoJR](https://twitter.com/bonto
 
 # Installation
 
-TODO
+Installation is straightforward with Cocoapods or manually.
+If you need Carthage support please take in consideration creating a PR to support it.
 
 ### Cocoapods
 
@@ -107,14 +109,14 @@ This is the code to create a simple dialog with an "Ok" button:
 
 ```swift
 EasyDialog.Builder(self)
-            .title(title: "Hello World") // tag -> 1
-            .text(content: "This is a basic dialog")
-            .space(ofSize: 4)
-            .addButton(title: "Ok") { dialog in
-                dialog.dismiss(animated: true)
-            }
-            .build()
-            .show()
+    .title(title: "Hello World") // tag -> 1
+    .text(content: "This is a basic dialog")
+    .space(ofSize: 4)
+    .addButton(title: "Ok") { dialog in
+        dialog.dismiss(animated: true)
+    }
+    .build()
+    .show()
 ```
 
 #### Rating dialog
@@ -123,24 +125,97 @@ Creating a simple rating dialog is pretty simple and looks like this:
 
 ```swift
 EasyDialog.Builder(self)
-            .title(title: "Rating") // tag -> 1
-            .label(text: "If you like this app, please consider rate us.", textAlignment: .center)
-            .positiveButton(title: "Yes") { dialog in
+    .title(title: "Rating") // tag -> 1
+    .label(text: "If you like this app, please consider rate us.", textAlignment: .center)
+    .positiveButton(title: "Yes") { dialog in
 
-                print("process now")
+        print("process now")
 
-                dialog.dismiss(animated: true)
-            }
-            .addButton(title: "Remind me later") { dialog in
+        dialog.dismiss(animated: true)
+    }
+    .addButton(title: "Remind me later") { dialog in
 
-                print("remind later")
+        print("remind later")
 
-                dialog.dismiss(animated: true)
-            }
-            .destructiveButton(title: "Not now")
-            .build()
-            .show()
+        dialog.dismiss(animated: true)
+    }
+    .destructiveButton(title: "Not now")
+    .build()
+    .show()
 ```
+
+#### Advanced
+
+Creating an advanced dialog is done in the following way:
+
+```swift
+EasyDialog.Builder(self)
+    .title(title: "User and Pass") // tag -> 1
+    .textField(placeholder: "Username") // tag -> 2
+    .textField(placeholder: "Password", secure: true) // tag -> 3
+    .view(view: UIActivityIndicatorView(activityIndicatorStyle: .gray)) // tag -> 4
+    .positiveButton(title: "Login") { dialog in
+
+    let tfUsername = dialog.view.viewWithTag(2) as! UITextField
+    let tfPassword = dialog.view.viewWithTag(3) as! UITextField
+    let ai = dialog.view.viewWithTag(4) as! UIActivityIndicatorView
+
+    tfUsername.isUserInteractionEnabled = false
+    tfPassword.isUserInteractionEnabled = false
+
+    ai.startAnimating()
+    print("\(tfUsername.text ?? "") \(tfPassword.text ?? "")" )
+
+    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+    dialog.dismiss(animated: true)
+    }
+    }
+    .destructiveButton(title: "Cancel")
+    .build()
+    .show()
+```
+
+Every single time a view is added to the dialog, a tag is assigned in an incremental way starting from 1. So the title view in this case has tag 1, the text field for the username 2, the password 3 and so on. This makes this library pretty flexible and in the previous example, an activity indicator is added to the dialog and is displayed and animated when necessary.
+
+#### Theming
+
+To theme the dialog there are 2 ways:
+
+* Set the default theme `EasyDialog.Builder.defaultTheme = myCustomTheme`
+* Pass the theme when building the dialog `EasyDialog.Builder(self, theme: customTheme)`
+
+The first case has to be used to give a style which will be preserved in the application and is the recommended way.
+The second case is usually a good alternative when a special dialog requires a different them. It's recommended to not abuse this method, creating different sytles, making the app visually inconsistent.
+
+To theme the Dialog there's a dedicate `struct`:
+
+```swift
+public struct Theme {
+    let textColor: UIColor
+    let titleColor: UIColor
+    let titleFont: UIFont
+    let textFont: UIFont
+    let alertBackgroudColor: UIColor
+    let cornerRadius: CGFloat
+    let maskViewAlpha: CGFloat
+    let separatorColor: UIColor
+    let positiveButton: Button
+    let destructiveButton: Button
+    let regularButton: Button
+    
+    // [...]
+
+    public struct Button {
+        let backgroundColor: UIColor
+        let selectedBackgroundColor: UIColor
+        let textColor: UIColor
+        let font: UIFont
+        // [...]
+   }
+}
+```
+
+Buttons have a dedicated structure to enforce modularity and avoid writing repetitive code which usually leads to bugs.
 
 ---
 
