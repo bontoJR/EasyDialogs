@@ -112,7 +112,7 @@ public class EasyDialog: UIViewController {
             let textColor: UIColor
             let font: UIFont
             
-            init(backgroundColor: UIColor = colorFromDecimalRGB(245, green: 245, blue: 245), selectedBackgroundColor: UIColor = colorFromDecimalRGB(230, green: 230, blue: 230), textColor: UIColor = colorFromDecimalRGB(19, green: 144, blue: 255), font: UIFont = UIFont.boldSystemFont(ofSize: 16.0)) {
+            public init(backgroundColor: UIColor = colorFromDecimalRGB(245, green: 245, blue: 245), selectedBackgroundColor: UIColor = colorFromDecimalRGB(230, green: 230, blue: 230), textColor: UIColor = colorFromDecimalRGB(19, green: 144, blue: 255), font: UIFont = UIFont.boldSystemFont(ofSize: 16.0)) {
                 self.backgroundColor = backgroundColor
                 self.selectedBackgroundColor = selectedBackgroundColor
                 self.textColor = textColor
