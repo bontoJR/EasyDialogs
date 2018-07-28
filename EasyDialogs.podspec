@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "EasyDialogs"
-  s.version      = "0.9.3"
+  s.version      = "1.1"
   s.summary      = "A simple, customizable dialog library for iOS written in Swift inspired by MaterialDialogs for Android."
   s.description  = <<-DESC
     TODO
